@@ -1,0 +1,18 @@
+export default [
+  { key: "About" },
+  { key: "ASO" },
+  { key: "Contact" },
+  { key: "Download" },
+  { key: "Helper" },
+  { key: "Introduce" },
+  { key: "Referral" },
+  { key: "Loading" },
+  { key: "News" },
+  { key: "Support" },
+  { key: "Teacher" },
+  { key: "Pricing" },
+  { key: "Referral" },
+  { key: "Payment" },
+  { key: "ComingSoon" },
+  { key: "Home" },
+];
