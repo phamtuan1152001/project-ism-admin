@@ -76,7 +76,7 @@ body {
   padding: 0;
   margin: 0;
 
-  background-color: #012282;
+  // background-color: #012282;
 
   &::-webkit-scrollbar {
     width: 6px;
@@ -217,13 +217,13 @@ button {
 
   &:not(:disabled):not(.disabled).active:focus,
   &:not(:disabled):not(.disabled):active:focus,
-  .show>.btn-primary.dropdown-toggle:focus {
+  .show > .btn-primary.dropdown-toggle:focus {
     box-shadow: unset;
   }
 
   &:not(:disabled):not(.disabled).active,
   &:not(:disabled):not(.disabled):active,
-  .show>.btn-primary.dropdown-toggle {
+  .show > .btn-primary.dropdown-toggle {
     color: var(--whiteColor);
     background: var(--templateColor);
     transform: translateY(-5px);
@@ -263,13 +263,13 @@ button {
 
   &:not(:disabled):not(.disabled).active:focus,
   &:not(:disabled):not(.disabled):active:focus,
-  .show>.btn-blue.dropdown-toggle:focus {
+  .show > .btn-blue.dropdown-toggle:focus {
     box-shadow: unset;
   }
 
   &:not(:disabled):not(.disabled).active,
   &:not(:disabled):not(.disabled):active,
-  .show>.btn-blue.dropdown-toggle {
+  .show > .btn-blue.dropdown-toggle {
     color: var(--whiteColor);
     background: var(--blueActive);
     transform: translateY(-5px);
@@ -309,13 +309,13 @@ button {
 
   &:not(:disabled):not(.disabled).active:focus,
   &:not(:disabled):not(.disabled):active:focus,
-  .show>.btn-blue.dropdown-toggle:focus {
+  .show > .btn-blue.dropdown-toggle:focus {
     box-shadow: unset;
   }
 
   &:not(:disabled):not(.disabled).active,
   &:not(:disabled):not(.disabled):active,
-  .show>.btn-blue.dropdown-toggle {
+  .show > .btn-blue.dropdown-toggle {
     color: var(--whiteColor);
     background: var(--pinkHover);
     transform: translateY(-5px);
@@ -355,13 +355,13 @@ button {
 
   &:not(:disabled):not(.disabled).active:focus,
   &:not(:disabled):not(.disabled):active:focus,
-  .show>.btn-blue.dropdown-toggle:focus {
+  .show > .btn-blue.dropdown-toggle:focus {
     box-shadow: unset;
   }
 
   &:not(:disabled):not(.disabled).active,
   &:not(:disabled):not(.disabled):active,
-  .show>.btn-blue.dropdown-toggle {
+  .show > .btn-blue.dropdown-toggle {
     color: var(--whiteColor);
     background: var(--lightBlueHover);
     transform: translateY(-5px);
@@ -401,13 +401,13 @@ button {
 
   &:not(:disabled):not(.disabled).active:focus,
   &:not(:disabled):not(.disabled):active:focus,
-  .show>.btn-blue.dropdown-toggle:focus {
+  .show > .btn-blue.dropdown-toggle:focus {
     box-shadow: unset;
   }
 
   &:not(:disabled):not(.disabled).active,
   &:not(:disabled):not(.disabled):active,
-  .show>.btn-blue.dropdown-toggle {
+  .show > .btn-blue.dropdown-toggle {
     color: var(--whiteColor);
     background: var(--mintHover);
     transform: translateY(-5px);
@@ -447,13 +447,13 @@ button {
 
   &:not(:disabled):not(.disabled).active:focus,
   &:not(:disabled):not(.disabled):active:focus,
-  .show>.btn-blue.dropdown-toggle:focus {
+  .show > .btn-blue.dropdown-toggle:focus {
     box-shadow: unset;
   }
 
   &:not(:disabled):not(.disabled).active,
   &:not(:disabled):not(.disabled):active,
-  .show>.btn-blue.dropdown-toggle {
+  .show > .btn-blue.dropdown-toggle {
     color: var(--whiteColor);
     background: var(--greenHover);
     transform: translateY(-5px);
@@ -493,13 +493,13 @@ button {
 
   &:not(:disabled):not(.disabled).active:focus,
   &:not(:disabled):not(.disabled):active:focus,
-  .show>.btn-blue.dropdown-toggle:focus {
+  .show > .btn-blue.dropdown-toggle:focus {
     box-shadow: unset;
   }
 
   &:not(:disabled):not(.disabled).active,
   &:not(:disabled):not(.disabled):active,
-  .show>.btn-blue.dropdown-toggle {
+  .show > .btn-blue.dropdown-toggle {
     color: var(--whiteColor);
     background: var(--purpleHover);
     transform: translateY(-5px);
@@ -539,13 +539,13 @@ button {
 
   &:not(:disabled):not(.disabled).active:focus,
   &:not(:disabled):not(.disabled):active:focus,
-  .show>.btn-blue.dropdown-toggle:focus {
+  .show > .btn-blue.dropdown-toggle:focus {
     box-shadow: unset;
   }
 
   &:not(:disabled):not(.disabled).active,
   &:not(:disabled):not(.disabled):active,
-  .show>.btn-blue.dropdown-toggle {
+  .show > .btn-blue.dropdown-toggle {
     color: var(--whiteColor);
     background: var(--yellowHover);
     transform: translateY(-5px);
@@ -728,7 +728,6 @@ button {
   }
 
   &:hover {
-
     &::after,
     &::before {
       width: 50%;

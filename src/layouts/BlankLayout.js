@@ -74,7 +74,7 @@ const BlankLayout = ({ children, ...rest }) => {
               <div className="content-body">{children}</div>
             </div>
           </div>
-          <GoTop scrollStepInPx="50" delayInMs="16.66" />
+          {/* <GoTop scrollStepInPx="50" delayInMs="16.66" /> */}
         </div>
       )}
 
