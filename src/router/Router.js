@@ -18,6 +18,7 @@ import {
 
 // ** Layouts
 import BlankLayout from "@layouts/BlankLayout";
+import LoginLayout from "@layouts/LoginLayout";
 
 import Helmet from "react-helmet";
 import { useTranslation } from "react-i18next";
@@ -41,6 +42,7 @@ const Router = ({ Routes }) => {
   // ** All of the available layouts
   const Layouts = {
     BlankLayout,
+    LoginLayout,
   };
 
   // ** Current Active Item
@@ -138,18 +140,6 @@ const Router = ({ Routes }) => {
                   />
                 );
               })}
-              <Route
-                path="/NamPhutThuocBai"
-                component={() => {
-                  window.location.href = "https://5ptb.stnhd.com";
-                  return null;
-                }}
-              />
-
-              <Route path="/student">
-                <Redirect to="/download" />
-              </Route>
-              <Route path="*" component={Error} />
             </Switch>
           </LayoutTag>
         </Route>
@@ -160,7 +150,11 @@ const Router = ({ Routes }) => {
 
   return (
     <AppRouter basename={process.env.REACT_APP_BASENAME}>
-      {ResolveRoutes()}
+      <Switch>
+        {ResolveRoutes()}
+        {/* NotFound Error page */}
+        <Route path="*" component={Error} />
+      </Switch>
     </AppRouter>
   );
 };
