@@ -1,8 +1,6 @@
-export const ENV_ENVIRONMENT_BASE_URL_API = "https://apidev.stnhd.com/api";
-export const ENV_ENVIRONMENT_BASE_URL_V2_API =
-  "https://apidevv2.stnhd.com/api";
-export const ENV_ENVIRONMENT_BASE_URL_API_DEV =
-  "https://apidev.stnhd.com/api";
+export const ENV_ENVIRONMENT_BASE_URL_API = "http://localhost:3000";
+export const ENV_ENVIRONMENT_BASE_URL_V2_API = "https://apidevv2.stnhd.com/api";
+export const ENV_ENVIRONMENT_BASE_URL_API_DEV = "https://apidev.stnhd.com/api";
 const ENV_ENVIRONMENT_BASE_URL_API_FIRE_BASE =
   "https://us-central1-tamtriluc-76b54.cloudfunctions.net/api";
 const ENV_ENVIRONMENT_FIRE_BASE_SECURITY = {

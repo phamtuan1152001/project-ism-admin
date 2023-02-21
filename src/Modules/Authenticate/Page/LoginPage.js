@@ -10,20 +10,31 @@ import { EyeOpenIcon, EyesClose } from "@Modules/Authenticate/assets/svg";
 // @components
 import { Form, Input, Button } from "antd";
 
+// @service
+import { signIn } from "../store/service";
+
 const Authenticate = () => {
   const [form] = Form.useForm();
 
   const [loading, setLoading] = useState(false);
   const [isDisable, setIsDisable] = useState(true);
 
-  const onFinish = (values) => {
-    console.log("values", values);
+  const onFinish = async (values) => {
+    // console.log("values", values);
+    try {
+      const res = await signIn({
+        payload: values,
+      });
+      console.log("res", res);
+    } catch (err) {
+      console.log("FETCH FAIL!", err);
+    }
   };
 
   const handleFormChange = () => {
     const hasErrors = form.getFieldsError().some(({ errors }) => errors.length);
     const hasValues = form.getFieldsValue();
-    setIsDisable(hasErrors || !hasValues?.userName || !hasValues?.password);
+    setIsDisable(hasErrors || !hasValues?.username || !hasValues?.password);
   };
 
   return (
@@ -55,7 +66,7 @@ const Authenticate = () => {
             requiredMark={false}
           >
             <Form.Item
-              name="userName"
+              name="username"
               className="form-custom col-12"
               label={`Username`}
               rules={[
