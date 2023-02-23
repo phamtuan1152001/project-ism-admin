@@ -11,7 +11,7 @@ export default {
     {
       url: "",
       component: "Page/index",
-      layout: "LoginLayout",
+      layout: "BlankLayout",
       meta: {
         authRoute: true,
       },

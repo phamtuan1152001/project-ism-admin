@@ -35,12 +35,9 @@ import Spinner from "@components/spinner/fallback-spinner";
 
 const Bootstrap = () => {
   const [loaded, setLoaded] = useState(false);
-  const auth = JSON.parse(localStorage.getItem("persist:Auth"));
-  let accessToken = auth?.accessToken;
-  if (accessToken) {
-    accessToken = JSON.parse(accessToken);
-  }
-  // const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const userSelector = JSON.parse(localStorage.getItem("persist:user"));
+  const userData = userSelector && JSON.parse(userSelector?.userData);
+  const accessToken = localStorage.getItem("accessToken");
 
   const [modules, setModules] = useState({
     listRoutes: [],

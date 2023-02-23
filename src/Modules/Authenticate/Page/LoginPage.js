@@ -2,30 +2,60 @@ import "../bootstrap.scss";
 
 import React, { useState } from "react";
 import classNames from "classnames";
+import { useDispatch } from "react-redux";
 
 // img
 import Logo from "@src/assets/images/ism-image.png";
 import { EyeOpenIcon, EyesClose } from "@Modules/Authenticate/assets/svg";
 
 // @components
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, notification } from "antd";
 
 // @service
 import { signIn } from "../store/service";
+// import { signIn } from "../store/auth/service";
+
+// @helpers
+import { setAccessToken } from "../helpers";
+import apiMethod from "@utility/ApiMethod";
+
+// @constants
+import { RETCODE_SUCCESS } from "@configs/contants";
+
+// @actions
+import { actions as ActionsUser } from "@store/user/reducer";
 
 const Authenticate = () => {
   const [form] = Form.useForm();
-
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [isDisable, setIsDisable] = useState(true);
 
   const onFinish = async (values) => {
-    // console.log("values", values);
     try {
       const res = await signIn({
         payload: values,
       });
-      console.log("res", res);
+      if (res?.data?.retCode === RETCODE_SUCCESS) {
+        const accessToken = res?.data?.retData?.accessToken;
+        await setAccessToken(accessToken);
+        apiMethod.defaults.headers.common["x-access-token"] = accessToken;
+        await dispatch(ActionsUser.setInfoData(res?.data?.retData));
+        notification.success({
+          message: "Successfully",
+          description: res?.data?.retText,
+          duration: 2,
+        });
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      } else {
+        notification.error({
+          message: "Fail",
+          description: "Login unsuccessfully!",
+          duration: 2,
+        });
+      }
     } catch (err) {
       console.log("FETCH FAIL!", err);
     }

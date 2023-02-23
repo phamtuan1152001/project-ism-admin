@@ -3,42 +3,27 @@ import "../responsive.scss";
 
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getCodeLanguage } from "@store/common/selectors";
-import queryString from "query-string";
-import { getDataHomeAction } from "@Modules/Home/Store/actions";
-import {
-  getDataHome,
-  getLoadingDataHomeSelector,
-} from "@Modules/Home/Store/selectors";
 import { useHistory, useLocation } from "react-router";
+import queryString from "query-string";
+
+// @selector
+import { getUserData } from "@store/user/selector";
+import { getCodeLanguage } from "@store/common/selectors";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const codeLanguage = useSelector((state) => getCodeLanguage(state));
-  const formData = useSelector((state) => getDataHome(state));
-  const loading = useSelector((state) => getLoadingDataHomeSelector(state));
-
   const location = useLocation();
   const history = useHistory();
 
-  useEffect(() => {
-    if (location.search === "?dk") {
-      history.push("/download");
-    }
-  }, [JSON.stringify(location.search)]);
+  const userInfo = useSelector(getUserData);
+  const codeLanguage = useSelector((state) => getCodeLanguage(state));
 
-  useEffect(() => {
-    if (location.state?.scroll) {
-      window.scrollTo(0, window.innerHeight + 200);
-      return;
-    }
-    window.scrollTo(0, 0);
-  }, []);
+  console.log("userInfo", userInfo);
 
-  useEffect(() => {
-    dispatch(getDataHomeAction());
-  }, [codeLanguage]);
-
-  return <div className="home__page"></div>;
+  return (
+    <div className="home__page">
+      <h1>pham le song tuan</h1>
+    </div>
+  );
 };
 export default Home;
