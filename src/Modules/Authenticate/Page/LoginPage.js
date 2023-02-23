@@ -39,7 +39,7 @@ const Authenticate = () => {
       if (res?.data?.retCode === RETCODE_SUCCESS) {
         const accessToken = res?.data?.retData?.accessToken;
         await setAccessToken(accessToken);
-        apiMethod.defaults.headers.common["x-access-token"] = accessToken;
+        apiMethod.defaults.headers.common["Authorization"] = accessToken;
         await dispatch(ActionsUser.setInfoData(res?.data?.retData));
         notification.success({
           message: "Successfully",
