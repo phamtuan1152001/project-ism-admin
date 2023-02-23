@@ -9,6 +9,7 @@
     color: #003459 !important;
     line-height: 50px;
     margin-bottom: 0;
+    text-transform: uppercase;
   }
 
   &__create {
@@ -65,5 +66,18 @@
       transition: ease-in-out all 0.3s;
       transform: scale(1.1);
     }
+  }
+}
+
+.create-product {
+  padding: 20px;
+
+  &__title {
+    font-family: "Times New Roman", Times, serif;
+    font-weight: 600;
+    color: #003459 !important;
+    line-height: 50px;
+    margin-bottom: 0;
+    text-transform: uppercase;
   }
 }

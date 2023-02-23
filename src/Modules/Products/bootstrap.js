@@ -22,6 +22,20 @@ export default {
         exact: true,
       },
     },
+    {
+      url: "create-product",
+      component: "Page/CreateProduct",
+      layout: "BlankLayout",
+      meta: {
+        authRoute: true,
+      },
+      props: {
+        title: "Manage Products",
+        titleI18n: "Manage Products",
+        headerStyle: "fill",
+        exact: true,
+      },
+    },
   ],
   lang: { vi: intlMessagesVi, en: intlMessagesEN },
   isAuthenticate: true,

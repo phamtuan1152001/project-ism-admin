@@ -86,7 +86,7 @@ const Home = () => {
   };
 
   const goToCreateProducts = () => {
-    history.push("/create-product");
+    history.push("/manage-products/create-product");
   };
 
   const columnsTable = [
