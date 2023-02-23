@@ -10,7 +10,7 @@ export default [
     id: "products",
     title: "Danh sách sản phẩm",
     titleI18n: "MENU:products",
-    to: "/products",
+    to: "/manage-products",
     submenu: [],
   },
   {

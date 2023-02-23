@@ -1,12 +1,12 @@
 import intlMessagesEN from "./i18n/localization/en.json";
 import intlMessagesVi from "./i18n/localization/vi.json";
-import initReducer from "./Store/initReducer";
-import initSagas from "./Store/initSagas";
+// import initReducer from "./Store/initReducer";
+// import initSagas from "./Store/initSagas";
 
 export default {
-  name: "Home",
-  dir: "Home",
-  pathRoot: "",
+  name: "Products",
+  dir: "Products",
+  pathRoot: "manage-products",
   routes: [
     {
       url: "",
@@ -16,8 +16,8 @@ export default {
         authRoute: true,
       },
       props: {
-        title: "Homepage Admin",
-        titleI18n: "Homepage Admin",
+        title: "Manage Products",
+        titleI18n: "Manage Products",
         headerStyle: "fill",
         exact: true,
       },
@@ -25,6 +25,6 @@ export default {
   ],
   lang: { vi: intlMessagesVi, en: intlMessagesEN },
   isAuthenticate: true,
-  redux: initReducer,
-  sagas: initSagas,
+  // redux: initReducer,
+  // sagas: initSagas,
 };

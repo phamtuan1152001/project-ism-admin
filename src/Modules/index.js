@@ -1,1 +1,1 @@
-export default [{ key: "Home" }, { key: "Authenticate" }];
+export default [{ key: "Home" }, { key: "Authenticate" }, { key: "Products" }];
