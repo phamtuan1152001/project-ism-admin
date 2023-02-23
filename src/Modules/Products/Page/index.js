@@ -11,13 +11,13 @@ import { getUserData } from "@store/user/selector";
 import { getCodeLanguage } from "@store/common/selectors";
 
 // @service
-import { getListProducts } from "../Store/service";
+import { getListProducts, deleteProduct } from "../Store/service";
 
 // @constants
 import { RETCODE_SUCCESS } from "@configs/contants";
 
 // @antd
-import { Table } from "antd";
+import { Table, notification } from "antd";
 
 // @utility
 import { formatToCurrencyVND } from "@utility/common";
@@ -58,6 +58,30 @@ const Home = () => {
       console.log("FETCH FAIL", err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchDeleteProduct = async (item) => {
+    try {
+      const res = await deleteProduct({
+        payload: item?._id,
+      });
+      if (res?.data?.retCode === RETCODE_SUCCESS) {
+        notification.success({
+          message: "Successfully",
+          description: "Delete product successfully",
+          duration: 2,
+        });
+        fetchGetListProducts();
+      } else {
+        notification.error({
+          message: "Fail",
+          description: "Delete product unsuccessfully",
+          duration: 2,
+        });
+      }
+    } catch (err) {
+      console.log("FETCH FAIL!", err);
     }
   };
 
@@ -132,7 +156,10 @@ const Home = () => {
             <div className="edit-icon d-flex flex-column justify-content-center align-items-center">
               <EditIcon />
             </div>
-            <div className="delete-icon d-flex flex-column justify-content-center align-items-center">
+            <div
+              onClick={() => fetchDeleteProduct(record)}
+              className="delete-icon d-flex flex-column justify-content-center align-items-center"
+            >
               <DeleteIcon />
             </div>
           </div>
