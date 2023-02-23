@@ -9,3 +9,11 @@ export const deleteProduct = ({ payload }) => {
   // const { id } = payload || {};
   return apiMethod.delete(API.DELETE_PRODUCT + `/${payload}`);
 };
+
+export const uploadImgProduct = (payload) => {
+  return apiMethod.post("/upload/upload-cloudinary", payload, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+};
