@@ -11,9 +11,13 @@ export const deleteProduct = ({ payload }) => {
 };
 
 export const uploadImgProduct = (payload) => {
-  return apiMethod.post("/upload/upload-cloudinary", payload, {
+  return apiMethod.post(API.UPLOAD_PRODUCT, payload, {
     headers: {
       "Content-Type": "application/json",
     },
   });
+};
+
+export const createProduct = (payload) => {
+  return apiMethod.post(API.CREATE_PRODUCT, payload);
 };
