@@ -18,7 +18,6 @@ export default {
       props: {
         title: "Manage Products",
         titleI18n: "Manage Products",
-        headerStyle: "fill",
         exact: true,
       },
     },
@@ -32,7 +31,19 @@ export default {
       props: {
         title: "Manage Products",
         titleI18n: "Manage Products",
-        headerStyle: "fill",
+        exact: true,
+      },
+    },
+    {
+      url: "update-product",
+      component: "Page/CreateProduct",
+      layout: "BlankLayout",
+      meta: {
+        authRoute: true,
+      },
+      props: {
+        title: "Update Products",
+        titleI18n: "Update Products",
         exact: true,
       },
     },

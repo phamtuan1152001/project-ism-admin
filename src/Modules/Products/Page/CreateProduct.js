@@ -3,7 +3,7 @@ import "../responsive.scss";
 
 import React, { useEffect, useState } from "react";
 import classNames from "classnames";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import moment from "moment";
 
 // @utility
@@ -26,7 +26,11 @@ const { Option } = Select;
 import { PlusOutlined } from "@ant-design/icons";
 
 // @service
-import { createProduct } from "../Store/service";
+import {
+  createProduct,
+  getDetailProduct,
+  updateProduct,
+} from "../Store/service";
 
 // @constants
 import { RETCODE_SUCCESS } from "@configs/contants";
@@ -34,6 +38,9 @@ import { RETCODE_SUCCESS } from "@configs/contants";
 const CreateProduct = () => {
   const [form] = Form.useForm();
   const history = useHistory();
+  const location = useLocation();
+
+  const { idProduct } = location.state || {};
 
   const [loading, setLoading] = useState(false);
   const [isDisable, setIsDisable] = useState(true);
@@ -43,6 +50,12 @@ const CreateProduct = () => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [fileList, setFileList] = useState([]);
+
+  useEffect(() => {
+    if (idProduct) {
+      fetchDetailProduct();
+    }
+  }, []);
 
   useEffect(async () => {
     if (imgBase64) {
@@ -65,6 +78,47 @@ const CreateProduct = () => {
     }
   }, [imgBase64]);
 
+  const fetchDetailProduct = async () => {
+    try {
+      const res = await getDetailProduct({
+        idProduct,
+      });
+      if (res?.data?.retCode === RETCODE_SUCCESS) {
+        onInitData(res?.data?.retData);
+      }
+    } catch (err) {
+      console.log("FETCH FAIL!", err);
+    }
+  };
+
+  const onInitData = (dataProduct) => {
+    if (dataProduct && Object.keys(dataProduct).length > 0) {
+      const {
+        name,
+        description,
+        price,
+        gender,
+        age,
+        weight,
+        location,
+        dob,
+        image,
+      } = dataProduct || {};
+      setFileList(image);
+      form.setFieldsValue({
+        dob: moment(dob),
+        name,
+        description,
+        price,
+        gender,
+        age,
+        weight,
+        location,
+        // dob,
+      });
+    }
+  };
+
   const disabledDate = (current) => {
     const LIMIT_YEAR = 1900;
     return current && current.year() < LIMIT_YEAR;
@@ -83,11 +137,18 @@ const CreateProduct = () => {
     const { dob, image, ...rest } = values || {};
     try {
       setLoading(true);
-      const { data } = await createProduct({
-        dob: moment(dob).format(),
-        image: fileList,
-        ...rest,
-      });
+      const { data } = idProduct
+        ? await updateProduct({
+            idProduct,
+            dob: moment(dob).format(),
+            image: fileList,
+            ...rest,
+          })
+        : await createProduct({
+            dob: moment(dob).format(),
+            image: fileList,
+            ...rest,
+          });
 
       if (data?.retCode === RETCODE_SUCCESS) {
         notification.success({

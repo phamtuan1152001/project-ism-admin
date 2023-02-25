@@ -21,3 +21,13 @@ export const uploadImgProduct = (payload) => {
 export const createProduct = (payload) => {
   return apiMethod.post(API.CREATE_PRODUCT, payload);
 };
+
+export const getDetailProduct = (payload) => {
+  const { idProduct } = payload || {};
+  return apiMethod.get(API.DETAIL_PRODUCT + `/${idProduct}`);
+};
+
+export const updateProduct = (payload) => {
+  const { idProduct, ...rest } = payload || {};
+  return apiMethod.put(API.UPDATE_PRODUCT + `/${idProduct}`, { ...rest });
+};

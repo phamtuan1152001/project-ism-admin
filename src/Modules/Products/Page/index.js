@@ -98,6 +98,16 @@ const Home = () => {
     history.push("/manage-products/create-product");
   };
 
+  const goToEditProduct = (record) => {
+    // console.log("record", record?._id);
+    history.push({
+      pathname: "/manage-products/create-product",
+      state: {
+        idProduct: record?._id,
+      },
+    });
+  };
+
   const columnsTable = [
     {
       title: "Name",
@@ -200,7 +210,10 @@ const Home = () => {
         // console.log("item", record);
         return (
           <div className="d-flex flex-row justify-content-between align-items-center">
-            <div className="edit-icon d-flex flex-column justify-content-center align-items-center">
+            <div
+              className="edit-icon d-flex flex-column justify-content-center align-items-center"
+              onClick={() => goToEditProduct(record)}
+            >
               <EditIcon />
             </div>
             <div
