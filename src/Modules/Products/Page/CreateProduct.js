@@ -42,6 +42,7 @@ const CreateProduct = () => {
   const [loadingUpload, setLoadingUpload] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
+  const [fileList, setFileList] = useState([]);
 
   useEffect(async () => {
     if (imgBase64) {
@@ -79,11 +80,12 @@ const CreateProduct = () => {
 
   const onFinish = async (values) => {
     // console.log("values", values);
-    const { dob, ...rest } = values || {};
+    const { dob, image, ...rest } = values || {};
     try {
       setLoading(true);
       const { data } = await createProduct({
         dob: moment(dob).format(),
+        image: fileList,
         ...rest,
       });
 
@@ -126,8 +128,6 @@ const CreateProduct = () => {
         !hasValues?.dob
     );
   };
-
-  const [fileList, setFileList] = useState([]);
 
   const handleCancel = () => setPreviewOpen(false);
 
@@ -217,12 +217,6 @@ const CreateProduct = () => {
             name="image"
             className="form-custom col-6 ps-3 pe-3"
             label={`Image`}
-            rules={[
-              {
-                required: true,
-                message: "Please, enter your product name",
-              },
-            ]}
           >
             <Upload
               listType="picture-card"

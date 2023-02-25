@@ -1,7 +1,7 @@
 import "../bootstrap.scss";
 import "../responsive.scss";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router";
 import moment from "moment/moment";
@@ -17,18 +17,27 @@ import { getListProducts, deleteProduct } from "../Store/service";
 import { RETCODE_SUCCESS } from "@configs/contants";
 
 // @antd
-import { Table, notification } from "antd";
+import { Table, notification, Carousel } from "antd";
 
 // @utility
 import { formatToCurrencyVND } from "@utility/common";
 
 // @svg and img
-import { DeleteIcon, EditIcon } from "../assets/svg";
+import { DeleteIcon, EditIcon, NextIcon, PrevIcon } from "../assets/svg";
+
+const settings = {
+  dots: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+};
 
 const Home = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
+  const refCarousel = useRef();
 
   const userInfo = useSelector(getUserData);
   const codeLanguage = useSelector((state) => getCodeLanguage(state));
@@ -106,8 +115,46 @@ const Home = () => {
       key: "image",
       render: (img) => {
         return (
-          <div className="img-item-box">
-            <img src={img} className="img-item" alt="img-item" />
+          <div className="d-flex flex-row justify-content-between align-items-center">
+            {img?.length > 1 && (
+              <div
+                style={{ width: 30, height: 30 }}
+                className="d-flex flex-column justify-content-center align-items-center cursor-pointer"
+                onClick={() => refCarousel.current.prev()}
+              >
+                <PrevIcon />
+              </div>
+            )}
+            <div className="box-image">
+              {img?.length > 0 && (
+                <Carousel
+                  {...settings}
+                  ref={refCarousel}
+                  dots={img?.length > 1 ? true : false}
+                >
+                  {img?.map((item) => {
+                    return (
+                      <div className="img-item-box">
+                        <img
+                          src={item?.url}
+                          className="img-item"
+                          alt="img-item"
+                        />
+                      </div>
+                    );
+                  })}
+                </Carousel>
+              )}
+            </div>
+            {img?.length > 1 && (
+              <div
+                style={{ width: 30, height: 30 }}
+                className="d-flex flex-column justify-content-center align-items-center cursor-pointer"
+                onClick={() => refCarousel.current.next()}
+              >
+                <NextIcon />
+              </div>
+            )}
           </div>
         );
       },
