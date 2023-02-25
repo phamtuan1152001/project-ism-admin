@@ -1,7 +1,7 @@
 import "../bootstrap.scss";
 import "../responsive.scss";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 import { useHistory } from "react-router-dom";
 import moment from "moment";
@@ -10,8 +10,20 @@ import moment from "moment";
 import { uploadImg } from "../../../utility/UploadImg";
 
 // @components
-import { Form, Input, Button, notification, Select, DatePicker } from "antd";
+import {
+  Form,
+  Input,
+  Button,
+  notification,
+  Select,
+  DatePicker,
+  Modal,
+  Upload,
+  message,
+  Spin,
+} from "antd";
 const { Option } = Select;
+import { PlusOutlined } from "@ant-design/icons";
 
 // @service
 import { createProduct } from "../Store/service";
@@ -23,33 +35,46 @@ const CreateProduct = () => {
   const [form] = Form.useForm();
   const history = useHistory();
 
-  const [previewSouce, setPreviewSource] = useState();
   const [loading, setLoading] = useState(false);
   const [isDisable, setIsDisable] = useState(true);
+
+  const [imgBase64, setImgBase64] = useState();
+  const [loadingUpload, setLoadingUpload] = useState(false);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState("");
+
+  useEffect(async () => {
+    if (imgBase64) {
+      try {
+        setLoadingUpload(true);
+        const res = await uploadImg(imgBase64);
+        if (res?.status === 200) {
+          const listImg = {
+            uid: res?.data?.version_id,
+            url: res?.data?.secure_url,
+          };
+          setFileList((prev) => [...prev, listImg]);
+          setImgBase64();
+        }
+      } catch (err) {
+        console.log("FETCH FAIL!", err);
+      } finally {
+        setLoadingUpload(false);
+      }
+    }
+  }, [imgBase64]);
 
   const disabledDate = (current) => {
     const LIMIT_YEAR = 1900;
     return current && current.year() < LIMIT_YEAR;
   };
 
-  const handleChangeImg = (e) => {
-    const file = e.target.files[0];
-
-    previewFile(file);
-  };
-
-  const previewFile = (file) => {
+  const getBase64Img = (file) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = () => {
-      setPreviewSource(reader.result);
+      setImgBase64(reader.result);
     };
-  };
-
-  const handleSubmitImg = async (e) => {
-    if (!previewSouce) return;
-    const { data } = await uploadImg(previewSouce);
-    console.log("resImg", data);
   };
 
   const onFinish = async (values) => {
@@ -92,7 +117,7 @@ const CreateProduct = () => {
       hasErrors ||
         !hasValues?.name ||
         !hasValues?.description ||
-        !hasValues?.image ||
+        // !hasValues?.image ||
         !hasValues?.price ||
         !hasValues?.gender ||
         !hasValues?.age ||
@@ -102,13 +127,45 @@ const CreateProduct = () => {
     );
   };
 
+  const [fileList, setFileList] = useState([]);
+
+  const handleCancel = () => setPreviewOpen(false);
+
+  const validateFile = (file) => {
+    // console.log("hihi", file);
+    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+    if (!isJpgOrPng) {
+      message.error("You can only upload JPG/PNG file!");
+    }
+    const isLt10M = file.size / 1024 / 1024 < 10;
+    if (!isLt10M) {
+      message.error("Your image must less than 10MB");
+    }
+    return isJpgOrPng && isLt10M;
+  };
+
+  const handlePreview = async (file) => {
+    setPreviewImage(file.url);
+    setPreviewOpen(true);
+  };
+
+  const handleChange = async (props) => {
+    const { file, fileList } = props || {};
+    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+    if (isJpgOrPng) await getBase64Img(file?.originFileObj);
+  };
+
+  const uploadButton = (
+    <Spin spinning={loadingUpload}>
+      <PlusOutlined />
+      <div style={{ marginTop: 8 }}>Upload</div>
+    </Spin>
+  );
+
   return (
     <div className="create-product">
       <div className="mb-3">
         <h1 className="create-product__title">Create product</h1>
-        {/* <input type="file" onChange={handleChangeImg} />
-
-        <button onClick={(e) => handleSubmitImg(e)}>Submit</button> */}
       </div>
 
       <div className="create-product__formCreate">
@@ -167,10 +224,32 @@ const CreateProduct = () => {
               },
             ]}
           >
-            <Input
-              className="input-field"
-              placeholder={`Enter your product name`}
-            />
+            <Upload
+              listType="picture-card"
+              fileList={fileList}
+              customRequest={(options) => {
+                const { file } = options || {};
+                options.onSuccess(file, options.file);
+              }}
+              beforeUpload={validateFile}
+              onPreview={handlePreview}
+              onChange={handleChange}
+            >
+              {fileList.length >= 8 ? null : uploadButton}
+            </Upload>
+            <Modal
+              open={previewOpen}
+              title={""}
+              footer={null}
+              onCancel={handleCancel}
+              centered
+            >
+              <img
+                alt="preview-img"
+                style={{ width: "100%" }}
+                src={previewImage}
+              />
+            </Modal>
           </Form.Item>
 
           <Form.Item
