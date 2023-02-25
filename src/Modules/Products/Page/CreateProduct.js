@@ -54,6 +54,7 @@ const CreateProduct = () => {
   useEffect(() => {
     if (idProduct) {
       fetchDetailProduct();
+      // handleFormChange();
     }
   }, []);
 
@@ -216,6 +217,12 @@ const CreateProduct = () => {
     if (isJpgOrPng) await getBase64Img(file?.originFileObj);
   };
 
+  const handleRemove = (e) => {
+    // console.log("e", e);
+    const fileRemoved = fileList?.filter((item) => item?.uid !== e?.uid);
+    setFileList(fileRemoved);
+  };
+
   const uploadButton = (
     <Spin spinning={loadingUpload}>
       <PlusOutlined />
@@ -289,6 +296,7 @@ const CreateProduct = () => {
               beforeUpload={validateFile}
               onPreview={handlePreview}
               onChange={handleChange}
+              onRemove={(e) => handleRemove(e)}
             >
               {fileList.length >= 8 ? null : uploadButton}
             </Upload>
@@ -417,9 +425,9 @@ const CreateProduct = () => {
             <Button
               className={classNames({
                 "submit-btn": true,
-                disable: isDisable,
+                disable: idProduct ? false : isDisable,
               })}
-              disabled={isDisable}
+              disabled={idProduct ? false : isDisable}
               loading={loading}
               htmlType="submit"
             >
