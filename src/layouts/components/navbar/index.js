@@ -24,6 +24,8 @@ import {
   HamburgerIcon,
 } from "@src/assets/svg";
 
+import { LogoutOutlined } from "@ant-design/icons";
+
 const Navbar = ({ data = {} }) => {
   const { t } = useTranslation();
   const { url } = useRouteMatch();
@@ -51,6 +53,17 @@ const Navbar = ({ data = {} }) => {
       document.body.style.overflow = "unset";
     }
   }, [visible]);
+
+  const logout = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("persist:user");
+    localStorage.removeItem("persist:root");
+    localStorage.removeItem("persist:Payment");
+    localStorage.removeItem("persist:Auth");
+    localStorage.removeItem("mode");
+    localStorage.removeItem("persist:layout");
+    window.location.href = "/";
+  };
 
   return (
     <Fragment>
@@ -107,6 +120,12 @@ const Navbar = ({ data = {} }) => {
                   </nav>
                 </div>
               </div>
+            </div>
+            <div className="header-logout-box" onClick={() => logout()}>
+              <div className="d-flex flex-column justify-content-center align-items-center">
+                <LogoutOutlined />
+              </div>
+              <div className="header-logout-title">Logout</div>
             </div>
           </div>
         </div>

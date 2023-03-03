@@ -89,6 +89,35 @@
   position: relative;
   background: #f7dba7;
   padding: 10px 20px 0 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  .header-logout-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 6px 12px;
+    cursor: pointer;
+
+    .header-logout-title {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 14px;
+      color: #003459;
+      font-weight: 500;
+      line-height: 16px;
+      transition: ease-in-out 0.3s all;
+    }
+    &:hover {
+      transition: ease-in-out 0.3s all;
+      transform: scale(1.02);
+    }
+  }
 
   .navbar-brand {
     margin: 0;
