@@ -49,7 +49,6 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const [listProducts, setListProducts] = useState([]);
   const [page, setPage] = useState({});
-  // console.log("userInfo", userInfo);
 
   useEffect(() => {
     fetchGetListProducts();
@@ -256,19 +255,18 @@ const Home = () => {
         </button>
       </div>
       <Table
+        rowKey={(record) => record?.key}
         columns={columnsTable}
         dataSource={listProducts}
         loading={loading}
         pagination={{
           hideOnSinglePage: true,
           pageSize: LIMIT_DEFAULT,
-          current: page?.currentPage + 1,
+          current: +page?.currentPage + 1,
           total: page?.totalItems,
           onChange: (page) => fetchGetListProducts(page, LIMIT_DEFAULT),
         }}
       />
-
-      <div className="d-flex flex-row justify-content-end align-items-center"></div>
     </div>
   );
 };
