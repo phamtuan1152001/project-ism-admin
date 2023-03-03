@@ -2,7 +2,7 @@ import API from "../configs/api";
 import apiMethod from "@utility/ApiMethod";
 
 export const getListProducts = ({ payload }) => {
-  return apiMethod.get(API.GET_LIST_PRODUCTS);
+  return apiMethod.post(API.GET_LIST_PRODUCTS, payload);
 };
 
 export const deleteProduct = ({ payload }) => {

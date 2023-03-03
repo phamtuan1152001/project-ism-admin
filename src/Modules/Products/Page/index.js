@@ -14,7 +14,11 @@ import { getCodeLanguage } from "@store/common/selectors";
 import { getListProducts, deleteProduct } from "../Store/service";
 
 // @constants
-import { RETCODE_SUCCESS } from "@configs/contants";
+import {
+  RETCODE_SUCCESS,
+  PAGE_DEFAULT,
+  LIMIT_DEFAULT,
+} from "@configs/contants";
 
 // @antd
 import { Table, notification, Carousel } from "antd";
@@ -44,24 +48,35 @@ const Home = () => {
 
   const [loading, setLoading] = useState(false);
   const [listProducts, setListProducts] = useState([]);
+  const [page, setPage] = useState({});
   // console.log("userInfo", userInfo);
 
   useEffect(() => {
     fetchGetListProducts();
   }, []);
 
-  const fetchGetListProducts = async () => {
+  const fetchGetListProducts = async (
+    page = PAGE_DEFAULT,
+    size = LIMIT_DEFAULT
+  ) => {
     try {
       setLoading(true);
-      const res = await getListProducts({ payload: "" });
+      const res = await getListProducts({
+        payload: {
+          page,
+          size,
+        },
+      });
       if (res?.data?.retCode === RETCODE_SUCCESS) {
-        const listData = res?.data?.retData?.map((item, index) => {
+        const { products, ...rest } = res?.data?.retData || {};
+        const listData = products?.map((item, index) => {
           return {
             key: index,
             ...item,
           };
         });
         setListProducts(listData);
+        setPage(rest);
       }
     } catch (err) {
       console.log("FETCH FAIL", err);
@@ -244,8 +259,16 @@ const Home = () => {
         columns={columnsTable}
         dataSource={listProducts}
         loading={loading}
-        pagination={false}
+        pagination={{
+          hideOnSinglePage: true,
+          pageSize: LIMIT_DEFAULT,
+          current: page?.currentPage + 1,
+          total: page?.totalItems,
+          onChange: (page) => fetchGetListProducts(page, LIMIT_DEFAULT),
+        }}
       />
+
+      <div className="d-flex flex-row justify-content-end align-items-center"></div>
     </div>
   );
 };

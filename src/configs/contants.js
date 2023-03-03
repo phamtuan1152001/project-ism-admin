@@ -17,7 +17,7 @@ export const RETCODE_SUCCESS = 0;
 
 // PARAM QUERY
 export const PAGE_DEFAULT = 1;
-export const LIMIT_DEFAULT = 12;
+export const LIMIT_DEFAULT = 5;
 
 // PARAM QUERY
 
