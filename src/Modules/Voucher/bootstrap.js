@@ -4,9 +4,9 @@ import intlMessagesVi from "./i18n/localization/vi.json";
 // import initSagas from "./Store/initSagas";
 
 export default {
-  name: "Products",
-  dir: "Products",
-  pathRoot: "manage-products",
+  name: "Voucher",
+  dir: "Voucher",
+  pathRoot: "manage-voucher",
   routes: [
     {
       url: "",
@@ -16,34 +16,34 @@ export default {
         authRoute: true,
       },
       props: {
-        title: "Manage Products",
-        titleI18n: "Manage Products",
+        title: "Manage Vouchers",
+        titleI18n: "Manage Vouchers",
         exact: true,
       },
     },
     {
-      url: "create-product",
+      url: "create-voucher",
       component: "Page/CreateProduct",
       layout: "BlankLayout",
       meta: {
         authRoute: true,
       },
       props: {
-        title: "Create Products",
-        titleI18n: "Create Products",
+        title: "Create Vouchers",
+        titleI18n: "Create Vouchers",
         exact: true,
       },
     },
     {
-      url: "update-product",
+      url: "update-voucher",
       component: "Page/CreateProduct",
       layout: "BlankLayout",
       meta: {
         authRoute: true,
       },
       props: {
-        title: "Update Products",
-        titleI18n: "Update Products",
+        title: "Update Vouchers",
+        titleI18n: "Update Vouchers",
         exact: true,
       },
     },

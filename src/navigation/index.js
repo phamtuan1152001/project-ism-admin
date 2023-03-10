@@ -14,6 +14,13 @@ export default [
     submenu: [],
   },
   {
+    id: "vouchers",
+    title: "Danh sách khuyến mãi",
+    titleI18n: "MENU:voucher",
+    to: "/manage-voucher",
+    submenu: [],
+  },
+  {
     id: "order",
     title: "Quản lí đơn hàng",
     titleI18n: "MENU:order",

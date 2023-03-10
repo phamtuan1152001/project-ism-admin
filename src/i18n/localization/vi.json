@@ -303,10 +303,11 @@
     "later": "Để sau"
   },
   "MENU": {
-    "products": "Quản lý sản phẩm",
-    "others": "Khác",
-    "order": "Quản lí đơn hàng",
-    "payment": "Quản lí thanh toán",
+    "products": "Manage Products",
+    "others": "Others",
+    "order": "Manage Orders",
+    "payment": "Manage Payments",
+    "voucher": "Manage Voucher",
     "home": "Trang chủ",
     "introduce": "Giới thiệu",
     "news": "Tin tức",
