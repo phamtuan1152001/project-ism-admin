@@ -232,7 +232,7 @@ const CreateProduct = () => {
 
   return (
     <div className="create-product">
-      <div className="mb-3">
+      {/* <div className="mb-3">
         <h1 className="create-product__title">Create product</h1>
       </div>
 
@@ -435,7 +435,8 @@ const CreateProduct = () => {
             </Button>
           </div>
         </Form>
-      </div>
+      </div> */}
+      pham le song tuan
     </div>
   );
 };

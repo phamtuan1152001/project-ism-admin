@@ -29,14 +29,6 @@ import { formatToCurrencyVND } from "@utility/common";
 // @svg and img
 import { DeleteIcon, EditIcon, NextIcon, PrevIcon } from "../assets/svg";
 
-const settings = {
-  dots: true,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-};
-
 const Home = () => {
   const dispatch = useDispatch();
   const location = useLocation();
@@ -67,8 +59,8 @@ const Home = () => {
         },
       });
       if (res?.data?.retCode === RETCODE_SUCCESS) {
-        const { products, ...rest } = res?.data?.retData || {};
-        const listData = products?.map((item, index) => {
+        const { vouchers, ...rest } = res?.data?.retData || {};
+        const listData = vouchers?.map((item, index) => {
           return {
             key: index,
             ...item,
@@ -109,13 +101,13 @@ const Home = () => {
   };
 
   const goToCreateProducts = () => {
-    history.push("/manage-products/create-product");
+    history.push("/manage-voucher/create-voucher");
   };
 
   const goToEditProduct = (record) => {
     // console.log("record", record?._id);
     history.push({
-      pathname: "/manage-products/create-product",
+      pathname: "/manage-voucher/create-voucher",
       state: {
         idProduct: record?._id,
       },
@@ -132,89 +124,6 @@ const Home = () => {
       title: "Description",
       dataIndex: "description",
       key: "description",
-    },
-    {
-      title: "Image",
-      dataIndex: "image",
-      key: "image",
-      render: (img) => {
-        return (
-          <div className="d-flex flex-row justify-content-between align-items-center">
-            {img?.length > 1 && (
-              <div
-                style={{ width: 30, height: 30 }}
-                className="d-flex flex-column justify-content-center align-items-center cursor-pointer"
-                onClick={() => refCarousel.current.prev()}
-              >
-                <PrevIcon />
-              </div>
-            )}
-            <div className="box-image">
-              {img?.length > 0 && (
-                <Carousel
-                  {...settings}
-                  ref={refCarousel}
-                  dots={img?.length > 1 ? true : false}
-                >
-                  {img?.map((item) => {
-                    return (
-                      <div className="img-item-box">
-                        <img
-                          src={item?.url}
-                          className="img-item"
-                          alt="img-item"
-                        />
-                      </div>
-                    );
-                  })}
-                </Carousel>
-              )}
-            </div>
-            {img?.length > 1 && (
-              <div
-                style={{ width: 30, height: 30 }}
-                className="d-flex flex-column justify-content-center align-items-center cursor-pointer"
-                onClick={() => refCarousel.current.next()}
-              >
-                <NextIcon />
-              </div>
-            )}
-          </div>
-        );
-      },
-    },
-    {
-      title: "Price",
-      dataIndex: "price",
-      key: "price",
-      render: (currency) => (currency ? formatToCurrencyVND(currency) : "--"),
-    },
-    {
-      title: "Gender",
-      dataIndex: "gender",
-      key: "gender",
-    },
-    {
-      title: "Age",
-      dataIndex: "age",
-      key: "age",
-    },
-    {
-      title: "Day of birth",
-      dataIndex: "dob",
-      key: "dob",
-      render: (dob) =>
-        dob && moment(dob).isValid() ? moment(dob).format("DD/MM/YYYY") : "--",
-    },
-    {
-      title: "Weight",
-      dataIndex: "weight",
-      key: "weight",
-    },
-    {
-      title: "Location",
-      dataIndex: "location",
-      key: "location",
     },
     {
       title: "Edit",
