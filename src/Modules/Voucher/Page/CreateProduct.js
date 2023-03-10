@@ -125,14 +125,6 @@ const CreateProduct = () => {
     return current && current.year() < LIMIT_YEAR;
   };
 
-  const getBase64Img = (file) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setImgBase64(reader.result);
-    };
-  };
-
   const onFinish = async (values) => {
     // console.log("values", values);
     const { dob, image, ...rest } = values || {};
@@ -191,51 +183,11 @@ const CreateProduct = () => {
     );
   };
 
-  const handleCancel = () => setPreviewOpen(false);
-
-  const validateFile = (file) => {
-    // console.log("hihi", file);
-    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
-    if (!isJpgOrPng) {
-      message.error("You can only upload JPG/PNG file!");
-    }
-    const isLt10M = file.size / 1024 / 1024 < 10;
-    if (!isLt10M) {
-      message.error("Your image must less than 10MB");
-    }
-    return isJpgOrPng && isLt10M;
-  };
-
-  const handlePreview = async (file) => {
-    setPreviewImage(file.url);
-    setPreviewOpen(true);
-  };
-
-  const handleChange = async (props) => {
-    const { file, fileList } = props || {};
-    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
-    if (isJpgOrPng) await getBase64Img(file?.originFileObj);
-  };
-
-  const handleRemove = (e) => {
-    // console.log("e", e);
-    const fileRemoved = fileList?.filter((item) => item?.uid !== e?.uid);
-    setFileList(fileRemoved);
-  };
-
-  const uploadButton = (
-    <Spin spinning={loadingUpload}>
-      <PlusOutlined />
-      <div style={{ marginTop: 8 }}>Upload</div>
-    </Spin>
-  );
-
   return (
     <div className="create-product">
-      {/* <div className="mb-3">
-        <h1 className="create-product__title">Create product</h1>
+      <div className="mb-3">
+        <h1 className="create-product__title">Create voucher</h1>
       </div>
-
       <div className="create-product__formCreate">
         <Form
           form={form}
@@ -248,12 +200,12 @@ const CreateProduct = () => {
         >
           <Form.Item
             name="name"
-            className="form-custom col-6 ps-3 pe-3"
-            label={`Product name`}
+            className="form-custom col-12 ps-3 pe-3"
+            label={`Voucher name`}
             rules={[
               {
                 required: true,
-                message: "Please, enter your product name",
+                message: "Please, enter your voucher name",
               },
             ]}
           >
@@ -266,7 +218,7 @@ const CreateProduct = () => {
 
           <Form.Item
             name="description"
-            className="form-custom col-6 ps-3 pe-3"
+            className="form-custom col-12 ps-3 pe-3"
             label={`Description`}
             rules={[
               {
@@ -281,125 +233,7 @@ const CreateProduct = () => {
             />
           </Form.Item>
 
-          <Form.Item
-            name="image"
-            className="form-custom col-6 ps-3 pe-3"
-            label={`Image`}
-          >
-            <Upload
-              listType="picture-card"
-              fileList={fileList}
-              customRequest={(options) => {
-                const { file } = options || {};
-                options.onSuccess(file, options.file);
-              }}
-              beforeUpload={validateFile}
-              onPreview={handlePreview}
-              onChange={handleChange}
-              onRemove={(e) => handleRemove(e)}
-            >
-              {fileList.length >= 8 ? null : uploadButton}
-            </Upload>
-            <Modal
-              open={previewOpen}
-              title={""}
-              footer={null}
-              onCancel={handleCancel}
-              centered
-            >
-              <img
-                alt="preview-img"
-                style={{ width: "100%" }}
-                src={previewImage}
-              />
-            </Modal>
-          </Form.Item>
-
-          <Form.Item
-            name="price"
-            className="form-custom col-6 ps-3 pe-3"
-            label={`Price`}
-            rules={[
-              {
-                required: true,
-                message: "Please, enter your price",
-              },
-            ]}
-          >
-            <Input
-              type="number"
-              className="input-field"
-              placeholder={`Enter your price`}
-            />
-          </Form.Item>
-
-          <Form.Item
-            name="gender"
-            className="form-custom col-6 ps-3 pe-3"
-            label={`Gender`}
-            rules={[
-              {
-                required: true,
-                message: "Please, enter your gender",
-              },
-            ]}
-          >
-            <Select
-              placeholder={"Enter your gender"}
-              className="custom-select-text"
-              // suffixIcon={<ArrowDown />}
-            >
-              <Option value="male">Male</Option>
-              <Option value="female">Female</Option>
-            </Select>
-          </Form.Item>
-
-          <Form.Item
-            name="age"
-            className="form-custom col-6 ps-3 pe-3"
-            label={`Age`}
-            rules={[
-              {
-                required: true,
-                message: "Please, enter your age",
-              },
-            ]}
-          >
-            <Input className="input-field" placeholder={`Enter your age`} />
-          </Form.Item>
-
-          <Form.Item
-            name="weight"
-            className="form-custom col-6 ps-3 pe-3"
-            label={`Weight`}
-            rules={[
-              {
-                required: true,
-                message: "Please, enter your weight",
-              },
-            ]}
-          >
-            <Input className="input-field" placeholder={`Enter your weight`} />
-          </Form.Item>
-
-          <Form.Item
-            name="location"
-            className="form-custom col-6 ps-3 pe-3"
-            label={`Location`}
-            rules={[
-              {
-                required: true,
-                message: "Please, enter your location",
-              },
-            ]}
-          >
-            <Input
-              className="input-field"
-              placeholder={`Enter your location`}
-            />
-          </Form.Item>
-
-          <Form.Item
+          {/* <Form.Item
             name="dob"
             className="form-custom col-6 ps-3 pe-3"
             label={`Day of birth`}
@@ -419,7 +253,7 @@ const CreateProduct = () => {
               // format={"DD/MM/YYYY"}
               // onChange={handleBirthDayChange}
             />
-          </Form.Item>
+          </Form.Item> */}
 
           <div className="d-flex flex-row justify-content-end align-items-center">
             <Button
@@ -435,7 +269,7 @@ const CreateProduct = () => {
             </Button>
           </div>
         </Form>
-      </div> */}
+      </div>
       pham le song tuan
     </div>
   );
