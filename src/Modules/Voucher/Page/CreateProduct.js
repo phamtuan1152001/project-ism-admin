@@ -6,6 +6,10 @@ import classNames from "classnames";
 import { useHistory, useLocation } from "react-router-dom";
 import moment from "moment";
 
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { convertFileToBase64 } from "../../../utility/common";
+
 // @utility
 import { uploadImg } from "../../../utility/UploadImg";
 
@@ -51,33 +55,34 @@ const CreateProduct = () => {
   const [previewImage, setPreviewImage] = useState("");
   const [fileList, setFileList] = useState([]);
 
+  const [description, setDescription] = useState("");
+
   useEffect(() => {
     if (idProduct) {
       fetchDetailProduct();
-      // handleFormChange();
     }
   }, []);
 
-  useEffect(async () => {
-    if (imgBase64) {
-      try {
-        setLoadingUpload(true);
-        const res = await uploadImg(imgBase64);
-        if (res?.status === 200) {
-          const listImg = {
-            uid: res?.data?.version_id,
-            url: res?.data?.secure_url,
-          };
-          setFileList((prev) => [...prev, listImg]);
-          setImgBase64();
-        }
-      } catch (err) {
-        console.log("FETCH FAIL!", err);
-      } finally {
-        setLoadingUpload(false);
-      }
-    }
-  }, [imgBase64]);
+  // useEffect(async () => {
+  //   if (imgBase64) {
+  //     try {
+  //       setLoadingUpload(true);
+  //       const res = await uploadImg(imgBase64);
+  //       if (res?.status === 200) {
+  //         const listImg = {
+  //           uid: res?.data?.version_id,
+  //           url: res?.data?.secure_url,
+  //         };
+  //         setFileList((prev) => [...prev, listImg]);
+  //         setImgBase64();
+  //       }
+  //     } catch (err) {
+  //       console.log("FETCH FAIL!", err);
+  //     } finally {
+  //       setLoadingUpload(false);
+  //     }
+  //   }
+  // }, [imgBase64]);
 
   const fetchDetailProduct = async () => {
     try {
@@ -169,18 +174,8 @@ const CreateProduct = () => {
   const handleFormChange = () => {
     const hasErrors = form.getFieldsError().some(({ errors }) => errors.length);
     const hasValues = form.getFieldsValue();
-    setIsDisable(
-      hasErrors ||
-        !hasValues?.name ||
-        !hasValues?.description ||
-        // !hasValues?.image ||
-        !hasValues?.price ||
-        !hasValues?.gender ||
-        !hasValues?.age ||
-        !hasValues?.weight ||
-        !hasValues?.location ||
-        !hasValues?.dob
-    );
+    console.log("test", { hasValues, description });
+    setIsDisable(hasErrors || !hasValues?.name || !description);
   };
 
   return (
@@ -227,9 +222,103 @@ const CreateProduct = () => {
               },
             ]}
           >
-            <Input
-              className="input-field"
-              placeholder={`Enter your description`}
+            <CKEditor
+              editor={ClassicEditor}
+              data="<p>Hello from CKEditor 5!</p>"
+              onChange={(event, editor) => {
+                const data = editor.getData();
+                // console.log({ event, editor, data });
+                setDescription(data);
+              }}
+              config={{
+                // placeholder,
+                // placeholder: contentPlaceholder,
+                extraPlugins: [MyCustomUploadAdapterPlugin],
+                toolbar: {
+                  items: [
+                    "bold",
+                    "italic",
+                    "underline",
+                    "strikethrough",
+                    "link",
+                    "bulletedList",
+                    "numberedList",
+                    "|",
+                    "outdent",
+                    "indent",
+                    "alignment",
+                    "|",
+                    "imageUpload",
+                    "blockQuote",
+                    "insertTable",
+                    "mediaEmbed",
+                    "undo",
+                    "redo",
+                    "specialCharacters",
+                    "ChemType",
+                    "removeFormat",
+                    "fontColor",
+                    "fontBackgroundColor",
+                  ],
+                },
+                language: "vi",
+                image: {
+                  resizeUnit: "px",
+                  toolbar: [
+                    "resizeImage",
+                    // "imageStyle:alignLeft",
+                    // "imageStyle:alignCenter",
+                    // "imageStyle:alignRight",
+                    // "|",
+                    // "imageStyle:full",
+                    // "imageStyle:side",
+                    // "|",
+                    // "imageTextAlternative",
+                  ],
+                  styles: [
+                    "full",
+                    "side",
+                    "alignLeft",
+                    "alignCenter",
+                    "alignRight",
+                  ],
+                  resizeOptions: [
+                    {
+                      name: "imageResize:original",
+                      label: "Original",
+                      value: null,
+                    },
+                    {
+                      name: "imageResize:50",
+                      label: "50px",
+                      value: "50",
+                    },
+                    {
+                      name: "imageResize:75",
+                      label: "75px",
+                      value: "75",
+                    },
+                  ],
+                },
+                table: {
+                  contentToolbar: [
+                    "tableColumn",
+                    "tableRow",
+                    "mergeTableCells",
+                  ],
+                },
+                isReadOnly: false,
+              }}
+              // onReady={(editor) => {
+              //   // You can store the "editor" and use when it is needed.
+              //   console.log("Editor is ready to use!", editor);
+              // }}
+              // onBlur={(event, editor) => {
+              //   console.log("Blur.", editor);
+              // }}
+              // onFocus={(event, editor) => {
+              //   console.log("Focus.", editor);
+              // }}
             />
           </Form.Item>
 
@@ -270,9 +359,38 @@ const CreateProduct = () => {
           </div>
         </Form>
       </div>
-      pham le song tuan
     </div>
   );
 };
+
+function MyCustomUploadAdapterPlugin(editor) {
+  editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
+    return new MyUploadAdapter(loader);
+  };
+}
+
+class MyUploadAdapter {
+  constructor(props) {
+    this.loader = props;
+  }
+
+  // Starts the upload process.
+  async upload() {
+    return this.loader.file.then((uploadedFile) => {
+      return new Promise(async (resolve, reject) => {
+        const encodeBase64 = await convertFileToBase64(uploadedFile);
+        try {
+          const res = await uploadImg(encodeBase64?.base64);
+          if (res?.status === 200) {
+            const { secure_url, ...rest } = res?.data;
+            resolve({ default: secure_url });
+          }
+        } catch (err) {
+          reject("Upload failed");
+        }
+      });
+    });
+  }
+}
 
 export default CreateProduct;
