@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { convertFileToBase64 } from "@utility/common";
-// import Alignment from "@ckeditor/ckeditor5-alignment/src/alignment";
 
 // @utility
 import { uploadImg } from "@utility/UploadImg";
@@ -29,91 +28,6 @@ const Ckeditor = ({ placeholder, des = "", onChange = () => {} }) => {
       config={{
         placeholder,
         extraPlugins: [MyCustomUploadAdapterPlugin],
-        // plugins: [Alignment],
-        // toolbar: ["bold", "italic", "alignment"],
-        toolbar: {
-          items: [
-            "exportPDF",
-            "exportWord",
-            "|",
-            "findAndReplace",
-            "selectAll",
-            "|",
-            "heading",
-            "|",
-            "bold",
-            "italic",
-            "strikethrough",
-            "underline",
-            "code",
-            "subscript",
-            "superscript",
-            "removeFormat",
-            "|",
-            "bulletedList",
-            "numberedList",
-            "todoList",
-            "|",
-            "outdent",
-            "indent",
-            "|",
-            "undo",
-            "redo",
-            "-",
-            "fontSize",
-            "fontFamily",
-            "fontColor",
-            "fontBackgroundColor",
-            "highlight",
-            "|",
-            "alignments",
-            "|",
-            "link",
-            "insertImage",
-            "blockQuote",
-            "insertTable",
-            "mediaEmbed",
-            "codeBlock",
-            "htmlEmbed",
-            "|",
-            "specialCharacters",
-            "horizontalLine",
-            "pageBreak",
-            "|",
-            "textPartLanguage",
-            "|",
-            "sourceEditing",
-          ],
-          shouldNotGroupWhenFull: true,
-        },
-        // toolbar: {
-        //   // items: [
-        //   //   "bold",
-        //   //   "italic",
-        //   //   "undo",
-        //   //   "redo",
-        //   //   "link",
-        //   //   "|",
-        //   //   "imageUpload",
-        //   //   "blockQuote",
-        //   //   "insertTable",
-        //   //   "mediaEmbed",
-        //   //   // "underline",
-        //   //   // "strikethrough",
-        //   //   // "bulletedList",
-        //   //   // "numberedList",
-        //   //   // "outdent",
-        //   //   // "indent",
-        //   //   // "alignment", //
-        //   //   // // "|",
-        //   //   // "specialCharacters", //
-        //   //   // "ChemType", //
-        //   //   // "removeFormat", //
-        //   //   // "fontColor", //
-        //   //   // "fontBackgroundColor", //
-        //   //   // "heading",
-        //   // ],
-        // },
       }}
       // onReady={(editor) => {
       //   // You can store the "editor" and use when it is needed.
