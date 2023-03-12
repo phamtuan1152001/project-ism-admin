@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 
 import { CKEditor } from "@ckeditor/ckeditor5-react";
-import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+// import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import Editor from "ckeditor5-custom-build/build/ckeditor";
 import { convertFileToBase64 } from "@utility/common";
 
 // @utility
@@ -18,7 +19,7 @@ const Ckeditor = ({ placeholder, des = "", onChange = () => {} }) => {
 
   return (
     <CKEditor
-      editor={ClassicEditor}
+      editor={Editor}
       data={des}
       onChange={(event, editor) => {
         const data = editor.getData();
