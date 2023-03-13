@@ -38,13 +38,13 @@ const CreateProduct = () => {
   const history = useHistory();
   const location = useLocation();
 
-  const { idProduct } = location.state || {};
+  const { idVoucher } = location.state || {};
 
   const [loading, setLoading] = useState(false);
   const [isDisable, setIsDisable] = useState(true);
 
   useEffect(() => {
-    if (idProduct) {
+    if (idVoucher) {
       fetchDetailProduct();
     }
   }, []);
@@ -52,7 +52,7 @@ const CreateProduct = () => {
   const fetchDetailProduct = async () => {
     try {
       const res = await getDetailProduct({
-        idProduct,
+        idVoucher,
       });
       if (res?.data?.retCode === RETCODE_SUCCESS) {
         onInitData(res?.data?.retData);
@@ -62,29 +62,12 @@ const CreateProduct = () => {
     }
   };
 
-  const onInitData = (dataProduct) => {
-    if (dataProduct && Object.keys(dataProduct).length > 0) {
-      const {
-        name,
-        description,
-        price,
-        gender,
-        age,
-        weight,
-        location,
-        dob,
-        image,
-      } = dataProduct || {};
+  const onInitData = (dataVoucher) => {
+    if (dataVoucher && Object.keys(dataVoucher).length > 0) {
+      const { name, description } = dataVoucher || {};
       form.setFieldsValue({
-        dob: moment(dob),
         name,
         description,
-        price,
-        gender,
-        age,
-        weight,
-        location,
-        // dob,
       });
     }
   };
@@ -96,49 +79,47 @@ const CreateProduct = () => {
 
   const onFinish = async (values) => {
     // console.log("values", values);
-    const { dob, image, ...rest } = values || {};
-    // try {
-    //   setLoading(true);
-    //   const { data } = idProduct
-    //     ? await updateProduct({
-    //         idProduct,
-    //         dob: moment(dob).format(),
-    //         image: fileList,
-    //         ...rest,
-    //       })
-    //     : await createProduct({
-    //         dob: moment(dob).format(),
-    //         image: fileList,
-    //         ...rest,
-    //       });
+    const { name, description } = values || {};
+    try {
+      setLoading(true);
+      const { data } = idVoucher
+        ? await updateProduct({
+            idVoucher,
+            name: name,
+            description: description,
+          })
+        : await createProduct({
+            name: name,
+            description: description,
+          });
 
-    //   if (data?.retCode === RETCODE_SUCCESS) {
-    //     notification.success({
-    //       message: "Successfully",
-    //       description: data?.retText,
-    //       duration: 2,
-    //     });
-    //     setTimeout(() => {
-    //       history.push("/manage-products");
-    //     }, 1000);
-    //   } else {
-    //     notification.error({
-    //       message: "Fail",
-    //       description: "Create fail",
-    //       duration: 2,
-    //     });
-    //   }
-    // } catch (err) {
-    //   console.log("FETCH FAIL!", err);
-    // } finally {
-    //   setLoading(false);
-    // }
+      if (data?.retCode === RETCODE_SUCCESS) {
+        notification.success({
+          message: "Successfully",
+          description: data?.retText,
+          duration: 2,
+        });
+        setTimeout(() => {
+          history.push("/manage-voucher");
+        }, 1000);
+      } else {
+        notification.error({
+          message: "Fail",
+          description: "Create fail",
+          duration: 2,
+        });
+      }
+    } catch (err) {
+      console.log("FETCH FAIL!", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleFormChange = () => {
     const hasErrors = form.getFieldsError().some(({ errors }) => errors.length);
     const hasValues = form.getFieldsValue();
-    console.log("test", hasValues);
+    // console.log("test", hasValues);
     setIsDisable(hasErrors || !hasValues?.name || !hasValues?.description);
   };
 
@@ -218,9 +199,9 @@ const CreateProduct = () => {
             <Button
               className={classNames({
                 "submit-btn": true,
-                disable: idProduct ? false : isDisable,
+                disable: idVoucher ? false : isDisable,
               })}
-              disabled={idProduct ? false : isDisable}
+              disabled={idVoucher ? false : isDisable}
               loading={loading}
               htmlType="submit"
             >

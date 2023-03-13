@@ -109,7 +109,7 @@ const Home = () => {
     history.push({
       pathname: "/manage-voucher/create-voucher",
       state: {
-        idProduct: record?._id,
+        idVoucher: record?._id,
       },
     });
   };
@@ -124,6 +124,15 @@ const Home = () => {
       title: "Description",
       dataIndex: "description",
       key: "description",
+      render: (_, record) => {
+        return (
+          <div
+            dangerouslySetInnerHTML={{
+              __html: record.description,
+            }}
+          />
+        );
+      },
     },
     {
       title: "Edit",
@@ -160,7 +169,7 @@ const Home = () => {
           className="manage-products__create"
           onClick={goToCreateProducts}
         >
-          Create new products
+          Create new vouchers
         </button>
       </div>
       <Table
