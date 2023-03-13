@@ -8,7 +8,7 @@ import { convertFileToBase64 } from "@utility/common";
 // @utility
 import { uploadImg } from "@utility/UploadImg";
 
-const Ckeditor = ({ placeholder, des = "", onChange = () => {} }) => {
+const Ckeditor = ({ placeholder, description = "", onChange = () => {} }) => {
   const [value, setValue] = useState("");
 
   useEffect(() => {
@@ -20,7 +20,7 @@ const Ckeditor = ({ placeholder, des = "", onChange = () => {} }) => {
   return (
     <CKEditor
       editor={Editor}
-      data={des}
+      data={description}
       onChange={(event, editor) => {
         const data = editor.getData();
         setValue(data);

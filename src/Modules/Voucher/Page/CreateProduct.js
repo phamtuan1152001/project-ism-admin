@@ -43,6 +43,8 @@ const CreateProduct = () => {
   const [loading, setLoading] = useState(false);
   const [isDisable, setIsDisable] = useState(true);
 
+  const [descriptionCke, setDescriptionCke] = useState("");
+
   useEffect(() => {
     if (idVoucher) {
       fetchDetailProduct();
@@ -56,6 +58,7 @@ const CreateProduct = () => {
       });
       if (res?.data?.retCode === RETCODE_SUCCESS) {
         onInitData(res?.data?.retData);
+        setDescriptionCke(res?.data?.retData?.description);
       }
     } catch (err) {
       console.log("FETCH FAIL!", err);
@@ -169,7 +172,8 @@ const CreateProduct = () => {
           >
             <Ckeditor
               placeholder={"Enter your description"}
-              onChange={(e) => console.log("e", e)}
+              // onChange={(e) => console.log("e", e)}
+              description={descriptionCke}
             />
           </Form.Item>
 

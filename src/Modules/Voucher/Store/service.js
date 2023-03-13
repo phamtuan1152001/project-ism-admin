@@ -23,8 +23,8 @@ export const createProduct = (payload) => {
 };
 
 export const getDetailProduct = (payload) => {
-  const { idProduct } = payload || {};
-  return apiMethod.get(API.DETAIL_PRODUCT + `/${idProduct}`);
+  const { idVoucher } = payload || {};
+  return apiMethod.get(API.DETAIL_PRODUCT + `/${idVoucher}`);
 };
 
 export const updateProduct = (payload) => {
