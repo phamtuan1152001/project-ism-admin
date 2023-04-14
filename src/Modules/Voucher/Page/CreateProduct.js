@@ -25,9 +25,9 @@ import Ckeditor from "@components/Ckeditors";
 
 // @service
 import {
-  createProduct,
-  getDetailProduct,
-  updateProduct,
+  getDetailVoucher,
+  createVoucher,
+  updateVoucher,
 } from "../Store/service";
 
 // @constants
@@ -53,7 +53,7 @@ const CreateProduct = () => {
 
   const fetchDetailProduct = async () => {
     try {
-      const res = await getDetailProduct({
+      const res = await getDetailVoucher({
         idVoucher,
       });
       if (res?.data?.retCode === RETCODE_SUCCESS) {
@@ -86,12 +86,12 @@ const CreateProduct = () => {
     try {
       setLoading(true);
       const { data } = idVoucher
-        ? await updateProduct({
+        ? await updateVoucher({
             idVoucher,
             name: name,
             description: description,
           })
-        : await createProduct({
+        : await createVoucher({
             name: name,
             description: description,
           });

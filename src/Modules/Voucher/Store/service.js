@@ -1,11 +1,11 @@
 import API from "../configs/api";
 import apiMethod from "@utility/ApiMethod";
 
-export const getListProducts = ({ payload }) => {
+export const getListVouchers = ({ payload }) => {
   return apiMethod.post(API.GET_LIST_PRODUCTS, payload);
 };
 
-export const deleteProduct = ({ payload }) => {
+export const deleteVoucher = ({ payload }) => {
   // const { id } = payload || {};
   return apiMethod.delete(API.DELETE_PRODUCT + `/${payload}`);
 };
@@ -18,16 +18,25 @@ export const uploadImgProduct = (payload) => {
   });
 };
 
-export const createProduct = (payload) => {
-  return apiMethod.post(API.CREATE_PRODUCT, payload);
-};
+// export const createProduct = (payload) => {
+//   return apiMethod.post(API.CREATE_PRODUCT, payload);
+// };
 
-export const getDetailProduct = (payload) => {
+export const getDetailVoucher = (payload) => {
   const { idVoucher } = payload || {};
   return apiMethod.get(API.DETAIL_PRODUCT + `/${idVoucher}`);
 };
 
-export const updateProduct = (payload) => {
-  const { idProduct, ...rest } = payload || {};
-  return apiMethod.put(API.UPDATE_PRODUCT + `/${idProduct}`, { ...rest });
+// export const updateProduct = (payload) => {
+//   const { idProduct, ...rest } = payload || {};
+//   return apiMethod.put(API.UPDATE_PRODUCT + `/${idProduct}`, { ...rest });
+// };
+
+export const createVoucher = (payload) => {
+  return apiMethod.post(API.CREATE_PRODUCT, payload);
+};
+
+export const updateVoucher = (payload) => {
+  const { idVoucher, ...rest } = payload || {};
+  return apiMethod.put(API.UPDATE_PRODUCT + `/${idVoucher}`, { ...rest });
 };

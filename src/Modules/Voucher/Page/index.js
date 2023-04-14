@@ -11,7 +11,7 @@ import { getUserData } from "@store/user/selector";
 import { getCodeLanguage } from "@store/common/selectors";
 
 // @service
-import { getListProducts, deleteProduct } from "../Store/service";
+import { getListVouchers, deleteVoucher } from "../Store/service";
 
 // @constants
 import {
@@ -52,7 +52,7 @@ const Home = () => {
   ) => {
     try {
       setLoading(true);
-      const res = await getListProducts({
+      const res = await getListVouchers({
         payload: {
           page,
           size,
@@ -78,7 +78,7 @@ const Home = () => {
 
   const fetchDeleteProduct = async (item) => {
     try {
-      const res = await deleteProduct({
+      const res = await deleteVoucher({
         payload: item?._id,
       });
       if (res?.data?.retCode === RETCODE_SUCCESS) {
