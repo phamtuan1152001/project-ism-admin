@@ -21,7 +21,8 @@ import {
 } from "@configs/contants";
 
 // @antd
-import { Table, notification, Carousel } from "antd";
+import { Table, notification, Carousel, Input } from "antd";
+const { Search } = Input;
 
 // @utility
 import { formatToCurrencyVND } from "@utility/common";
@@ -37,6 +38,8 @@ const settings = {
   slidesToScroll: 1,
 };
 
+let timeoutId;
+
 const Home = () => {
   const dispatch = useDispatch();
   const location = useLocation();
@@ -51,21 +54,18 @@ const Home = () => {
   const [page, setPage] = useState({});
 
   useEffect(() => {
-    fetchGetListProducts();
+    const payload = {
+      page: PAGE_DEFAULT,
+      size: LIMIT_DEFAULT,
+      productText: searchData,
+    };
+    fetchGetListProducts(payload);
   }, []);
 
-  const fetchGetListProducts = async (
-    page = PAGE_DEFAULT,
-    size = LIMIT_DEFAULT
-  ) => {
+  const fetchGetListProducts = async (payload) => {
     try {
       setLoading(true);
-      const res = await getListProducts({
-        payload: {
-          page,
-          size,
-        },
-      });
+      const res = await getListProducts(payload);
       if (res?.data?.retCode === RETCODE_SUCCESS) {
         const { products, ...rest } = res?.data?.retData || {};
         const listData = products?.map((item, index) => {
@@ -242,17 +242,57 @@ const Home = () => {
     },
   ];
 
+  // search
+  const [input, setInput] = React.useState("");
+  const [prevSearch, setPrevSearch] = React.useState("");
+  const [searchData, setSearchData] = React.useState("");
+
+  useEffect(() => {
+    if (searchData) {
+      // console.log("search data", searchData);
+      const payload = {
+        page: PAGE_DEFAULT,
+        size: LIMIT_DEFAULT,
+        productText: searchData,
+      };
+      fetchGetListProducts(payload);
+    }
+  }, [searchData]);
+
+  const handleSeachItem = (e) => {
+    const search = e.target.value;
+    setInput(search);
+    setPrevSearch(search);
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+    timeoutId = setTimeout(() => {
+      if (search !== prevSearch || search === "") {
+        // console.log("value", search);
+        setSearchData(search);
+      }
+    }, 1000);
+  };
+
   return (
     <div className="manage-products">
       <div className="d-flex flex-row justify-content-between align-items-center mb-3">
         <h1 className="manage-products__title">Products List</h1>
 
-        <button
-          className="manage-products__create"
-          onClick={goToCreateProducts}
-        >
-          Create new products
-        </button>
+        <div className="d-flex flex-row justify-content-center align-items-center gap-3">
+          <Input
+            placeholder="Enter your pets to search"
+            onChange={(e) => handleSeachItem(e)}
+            value={input}
+          />
+
+          <button
+            className="manage-products__create"
+            onClick={goToCreateProducts}
+          >
+            Create product
+          </button>
+        </div>
       </div>
       <Table
         rowKey={(record) => record?.key}
@@ -264,7 +304,15 @@ const Home = () => {
           pageSize: LIMIT_DEFAULT,
           current: +page?.currentPage + 1,
           total: page?.totalItems,
-          onChange: (page) => fetchGetListProducts(page, LIMIT_DEFAULT),
+          onChange: (pageitem) => {
+            // console.log("pageitem", pageitem);
+            const payload = {
+              page: pageitem,
+              size: LIMIT_DEFAULT,
+              productText: searchData,
+            };
+            fetchGetListProducts(payload);
+          },
         }}
       />
     </div>
