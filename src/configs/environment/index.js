@@ -1,4 +1,6 @@
-export const ENV_ENVIRONMENT_BASE_URL_API = "http://localhost:3000";
+// export const ENV_ENVIRONMENT_BASE_URL_API = "http://localhost:3000";
+export const ENV_ENVIRONMENT_BASE_URL_API =
+  "https://ecommercepetshop.herokuapp.com/";
 export const ENV_ENVIRONMENT_BASE_URL_V2_API = "https://apidevv2.stnhd.com/api";
 export const ENV_ENVIRONMENT_BASE_URL_API_DEV = "https://apidev.stnhd.com/api";
 const ENV_ENVIRONMENT_BASE_URL_API_FIRE_BASE =
