@@ -140,7 +140,7 @@ const Home = () => {
       render: (img) => {
         return (
           <div className="d-flex flex-row justify-content-between align-items-center">
-            {img?.length > 1 && (
+            {/* {img?.length > 1 && (
               <div
                 style={{ width: 30, height: 30 }}
                 className="d-flex flex-column justify-content-center align-items-center cursor-pointer"
@@ -148,7 +148,7 @@ const Home = () => {
               >
                 <PrevIcon />
               </div>
-            )}
+            )} */}
             <div className="box-image">
               {img?.length > 0 && (
                 <Carousel
@@ -170,7 +170,7 @@ const Home = () => {
                 </Carousel>
               )}
             </div>
-            {img?.length > 1 && (
+            {/* {img?.length > 1 && (
               <div
                 style={{ width: 30, height: 30 }}
                 className="d-flex flex-column justify-content-center align-items-center cursor-pointer"
@@ -178,7 +178,7 @@ const Home = () => {
               >
                 <NextIcon />
               </div>
-            )}
+            )} */}
           </div>
         );
       },

@@ -35,6 +35,26 @@
   .box-image {
     width: 300px;
 
+    .ant-carousel {
+      .slick-slider {
+        .slick-dots {
+          li {
+            button {
+              background: blue;
+            }
+          }
+          .slick-active {
+            button {
+              background: #003459;
+            }
+          }
+          &.slick-dots-bottom {
+            bottom: -10px;
+          }
+        }
+      }
+    }
+
     .img-item-box {
       .img-item {
         width: 100%;
