@@ -3,4 +3,5 @@ export default [
   { key: "Authenticate" },
   { key: "Products" },
   { key: "Voucher" },
+  { key: "Order" },
 ];
