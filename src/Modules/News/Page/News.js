@@ -100,7 +100,7 @@ const News = () => {
   const goToEditNews = (record) => {
     // console.log("record", record?._id);
     history.push({
-      pathname: "/manage-order/update-order",
+      pathname: "/manage-news/update-news",
       state: {
         idNews: record?._id,
       },

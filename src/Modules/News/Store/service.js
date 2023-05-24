@@ -11,8 +11,8 @@ export const getDetailNews = (payload) => {
 };
 
 export const updateDetailNews = (payload) => {
-  const { idNews } = payload || {};
-  return apiMethod.put(API.UPDATE_DETAIL_NEWS + `/${idNews}`);
+  const { idNews, ...rest } = payload || {};
+  return apiMethod.put(API.UPDATE_DETAIL_NEWS + `/${idNews}`, { ...rest });
 };
 
 export const deleteDetailNews = (payload) => {
