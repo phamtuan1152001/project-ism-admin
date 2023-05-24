@@ -1,16 +1,18 @@
 import "../bootstrap.scss";
 import "../responsive.scss";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import classNames from "classnames";
 import { useHistory, useLocation } from "react-router-dom";
 
 // @components
-import { Form, Input, Button, notification } from "antd";
+import { Form, Input, Button, notification, Modal, Upload, Spin } from "antd";
 import Ckeditor from "@components/Ckeditors";
+import { PlusOutlined } from "@ant-design/icons";
 
 // @service
 import { createNews } from "../Store/service";
+import { uploadImg } from "@utility/UploadImg";
 
 // @constants
 import { RETCODE_SUCCESS } from "@configs/contants";
@@ -24,11 +26,11 @@ const CreateNews = () => {
   const [isDisable, setIsDisable] = useState(true);
 
   const onFinish = async (values) => {
-    // console.log("values", values);
     try {
       setLoading(true);
       const { data } = await createNews({
         ...values,
+        linkImage: fileList[0].url,
       });
 
       if (data?.retCode === RETCODE_SUCCESS) {
@@ -64,6 +66,80 @@ const CreateNews = () => {
         !hasValues?.content
     );
   };
+
+  const [imgBase64, setImgBase64] = useState();
+  const [loadingUpload, setLoadingUpload] = useState(false);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState("");
+  const [fileList, setFileList] = useState([]);
+
+  useEffect(async () => {
+    if (imgBase64) {
+      try {
+        setLoadingUpload(true);
+        const res = await uploadImg(imgBase64);
+        if (res?.status === 200) {
+          const listImg = {
+            uid: res?.data?.version_id,
+            url: res?.data?.secure_url,
+          };
+          setFileList((prev) => [...prev, listImg]);
+          setImgBase64();
+        }
+      } catch (err) {
+        console.log("FETCH FAIL!", err);
+      } finally {
+        setLoadingUpload(false);
+      }
+    }
+  }, [imgBase64]);
+
+  const getBase64Img = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setImgBase64(reader.result);
+    };
+  };
+
+  const handleCancel = () => setPreviewOpen(false);
+
+  const validateFile = (file) => {
+    // console.log("hihi", file);
+    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+    if (!isJpgOrPng) {
+      message.error("You can only upload JPG/PNG file!");
+    }
+    const isLt10M = file.size / 1024 / 1024 < 10;
+    if (!isLt10M) {
+      message.error("Your image must less than 10MB");
+    }
+    return isJpgOrPng && isLt10M;
+  };
+
+  const handlePreview = async (file) => {
+    setPreviewImage(file.url);
+    setPreviewOpen(true);
+  };
+
+  const handleChange = async (props) => {
+    const { file, fileList } = props || {};
+    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+    if (isJpgOrPng) await getBase64Img(file?.originFileObj);
+  };
+
+  const handleRemove = (e) => {
+    // console.log("e", e);
+    const fileRemoved = fileList?.filter((item) => item?.uid !== e?.uid);
+    setFileList(fileRemoved);
+  };
+
+  const uploadButton = (
+    <Spin spinning={loadingUpload}>
+      <PlusOutlined />
+      <div style={{ marginTop: 8 }}>Upload</div>
+    </Spin>
+  );
 
   return (
     <div className="create-product">
@@ -113,6 +189,40 @@ const CreateNews = () => {
               className="input-field"
               placeholder={`Enter news description`}
             />
+          </Form.Item>
+
+          <Form.Item
+            name="linkImage"
+            className="form-custom col-6 ps-3 pe-3"
+            label={`Image`}
+          >
+            <Upload
+              listType="picture-card"
+              fileList={fileList}
+              customRequest={(options) => {
+                const { file } = options || {};
+                options.onSuccess(file, options.file);
+              }}
+              beforeUpload={validateFile}
+              onPreview={handlePreview}
+              onChange={handleChange}
+              onRemove={(e) => handleRemove(e)}
+            >
+              {fileList.length >= 1 ? null : uploadButton}
+            </Upload>
+            <Modal
+              open={previewOpen}
+              title={""}
+              footer={null}
+              onCancel={handleCancel}
+              centered
+            >
+              <img
+                alt="preview-img"
+                style={{ width: "100%" }}
+                src={previewImage}
+              />
+            </Modal>
           </Form.Item>
 
           <Form.Item
