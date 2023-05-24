@@ -2,6 +2,9 @@
   "name": "website-hitacamp",
   "version": "1.0.0",
   "private": true,
+  "engines": {
+    "yarn": "14.18.0"
+  },
   "dependencies": {
     "@ckeditor/ckeditor5-alignment": "^36.0.1",
     "@ckeditor/ckeditor5-build-classic": "^36.0.1",
