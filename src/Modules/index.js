@@ -4,4 +4,5 @@ export default [
   { key: "Products" },
   { key: "Voucher" },
   { key: "Order" },
+  { key: "News" },
 ];
