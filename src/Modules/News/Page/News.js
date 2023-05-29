@@ -118,15 +118,15 @@ const News = () => {
       dataIndex: "description",
       key: "description",
     },
-    {
-      title: "News's content",
-      dataIndex: "content",
-      key: "content",
-      width: 500,
-      // render: (data) => {
-      //   return data.content;
-      // },
-    },
+    // {
+    //   title: "News's content",
+    //   dataIndex: "content",
+    //   key: "content",
+    //   width: 500,
+    //   // render: (data) => {
+    //   //   return data.content;
+    //   // },
+    // },
     {
       title: "Date create news",
       dataIndex: "createdAt",
